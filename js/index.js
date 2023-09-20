@@ -8,7 +8,7 @@ function displayDOM(x, y) {
 }
 
 class Warrior {
-    constructor(characterName, details, health = 10, power = 5) {
+    constructor(characterName, details, health = [10], power = 5) {
         this.characterName = characterName;
         this.health = health;
         this.power = power;
@@ -17,7 +17,15 @@ class Warrior {
        return `I am ${this.characterName}! My health is ${this.health} and my attack power is a mighty ${this.power}!`
     }
     attack(otherCharacter){
-        return otherCharacter.health - this.power
+        const attack = otherCharacter.health - this.power;
+        otherCharacter.health.unshift(attack);
+        otherCharacter.health.pop();
+        return `${this.characterName} attacks ${otherCharacter.characterName}. ${otherCharacter.characterName}'s health is now ${attack}!`
+    }
+    victory(otherCharacter){
+        if (otherCharacter.health == 0){
+            return `${this.characterName} has been victorius!`
+        }
     }
 }
 class Hero extends Warrior {
@@ -27,14 +35,20 @@ class Hero extends Warrior {
 }
 class Villan extends Warrior {
     taunt(otherCharacter){
-        return `${otherCharacter.name} you are too weak to defeat me!`
+        return `${otherCharacter.characterName} you are too weak to defeat me!`
     }
 }
 
 
 
-const heman = new Warrior("HeMan", null);
-const thor = new Warrior("Thor", null);
+const heman = new Villan("HeMan", null);
+const thor = new Hero("Thor", null);
 
-displayDOM(heman.greet(thor));
+displayDOM(heman.greet());
+displayDOM(thor.greet());
+displayDOM(thor.announce(heman));
+displayDOM(heman.taunt(thor));
+displayDOM(thor.attack(heman));
 displayDOM(heman.attack(thor));
+displayDOM(heman.attack(thor));
+displayDOM(heman.victory(thor));
