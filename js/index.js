@@ -13,6 +13,12 @@ function displayBattle(x, y) {
     battle.append(p);
     p.id = y;
 }
+// function displayVictory(x, y) {
+//     const p = document.createElement("p");
+//     p.innerHTML = x;
+//     victory.append(p);
+//     p.id = y;
+// }
 
 class Warrior {
     constructor(characterName, details, health = [10], power = 5) {
@@ -31,7 +37,10 @@ class Warrior {
     }
     victory(otherCharacter){
         if (otherCharacter.health == 0){
-            return `${this.characterName} has been victorius!`
+            victory.innerHTML = `${this.characterName} has been victorius! <button type="submit" id="newBattle">New Battle</button>`
+            newBattle.addEventListener("click", function(){
+                history.go(0);
+            })
         }else {
             return "";
         }
@@ -104,20 +113,9 @@ heroAttackBtn.addEventListener("click", function(){
     firstAttack.style.display = "none";
     displayBattle(hero[0].attack(villain[0]));
     displayBattle(hero[0].victory(villain[0]));
-})
+});
 villainAttackBtn.addEventListener("click", function(){
     firstAttack.style.display = "none";
     displayBattle(villain[0].attack(hero[0]));
     displayBattle(villain[0].victory(hero[0]));
-})
-// const heman = new Villain("HeMan", null);
-// const thor = new Hero("Thor", null);
-
-// displayIntro(heman.greet());
-// displayIntro(thor.greet());
-// displayIntro(thor.announce(heman));
-// displayIntro(heman.taunt(thor));
-// displayIntro(thor.attack(heman));
-// displayIntro(heman.attack(thor));
-// displayIntro(heman.attack(thor));
-// displayIntro(heman.victory(thor));
+});
