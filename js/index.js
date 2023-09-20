@@ -32,6 +32,8 @@ class Warrior {
     victory(otherCharacter){
         if (otherCharacter.health == 0){
             return `${this.characterName} has been victorius!`
+        }else {
+            return "";
         }
     }
 }
@@ -70,7 +72,7 @@ submit.addEventListener("click", function(){
     return cont.style.visibility = "visible";
     }
     
-})
+});
 const intro = document.getElementById("intro")
 cont.addEventListener("click", function(){
     
@@ -92,11 +94,21 @@ cont.addEventListener("click", function(){
         displayIntro(villain[0].taunt(hero[0]))
     }, 4500);
     setTimeout(() => {
-        intro.style.visibility = "hidden";
-        displayBattle("Who attacks first?")
+        intro.style.display = "none";
+        displayBattle("Who attacks first?", "firstAttack")
         heroAttackBtn.style.visibility = "visible";
         villainAttackBtn.style.visibility = "visible";
     }, 7000);
+});
+heroAttackBtn.addEventListener("click", function(){
+    firstAttack.style.display = "none";
+    displayBattle(hero[0].attack(villain[0]));
+    displayBattle(hero[0].victory(villain[0]));
+})
+villainAttackBtn.addEventListener("click", function(){
+    firstAttack.style.display = "none";
+    displayBattle(villain[0].attack(hero[0]));
+    displayBattle(villain[0].victory(hero[0]));
 })
 // const heman = new Villain("HeMan", null);
 // const thor = new Hero("Thor", null);
