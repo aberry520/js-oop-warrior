@@ -13,15 +13,14 @@ function displayBattle(x, y) {
     battle.append(p);
     p.id = y;
 }
-// function displayVictory(x, y) {
-//     const p = document.createElement("p");
-//     p.innerHTML = x;
-//     victory.append(p);
-//     p.id = y;
-// }
+function randomNum(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random()*(max-min)+min);
+}
 
 class Warrior {
-    constructor(characterName, details, health = [10], power = 5) {
+    constructor(characterName, details, health = [randomNum(10,100)], power = randomNum(5,50)) {
         this.characterName = characterName;
         this.health = health;
         this.power = power;
@@ -36,7 +35,7 @@ class Warrior {
         return `${this.characterName} attacks ${otherCharacter.characterName}. ${otherCharacter.characterName}'s health is now ${attack}!`
     }
     victory(otherCharacter){
-        if (otherCharacter.health == 0){
+        if (otherCharacter.health <= 0){
             victory.innerHTML = `${this.characterName} has been victorius! <button type="submit" id="newBattle">New Battle</button>`
             newBattle.addEventListener("click", function(){
                 history.go(0);
