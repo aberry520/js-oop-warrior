@@ -4,18 +4,19 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel='stylesheet' href='./css/styles.css'/>
     <link rel='normalize' href='./css/normalize.css'/>
 </head>
 <body>
     <header>
-        <h1>Battle of Foes</h1>
+        <h1 class="is-size-1">Battle of Foes</h1>
     </header>
     <main>
         <div id="victory" style="z-index: 10, position: absolute">
             <div id="intro" > 
-                <input type="text" id="heroInput" placeholder="Hero Name">
-                <input type="text" id="villainInput" placeholder="Villain Name">
+                <input type="text" id="heroInput" placeholder="Name your Hero" class="bul">
+                <input type="text" id="villainInput" placeholder="Name your Villain">
                 <button id="submit" type="submit">Submit</button>
                 <button id="continue" type="button">Continue</button>
             </div>

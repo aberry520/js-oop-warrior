@@ -20,7 +20,7 @@ function randomNum(min, max) {
 }
 
 class Warrior {
-    constructor(characterName, details, health = [randomNum(10,100)], power = randomNum(5,50)) {
+    constructor(characterName, details, health = [randomNum(50,100)], power = randomNum(5,50)) {
         this.characterName = characterName;
         this.health = health;
         this.power = power;
@@ -87,8 +87,8 @@ cont.addEventListener("click", function(){
     cont.style.display = "none";
     
     console.log(hero, villain);
-    const villainGreet = document.getElementById("villainGreet");
     const heroGreet = document.getElementById("heroGreet");
+    const villainGreet = document.getElementById("villainGreet");
     villainGreet.style.display = "none";
     heroGreet.style.display = "none";
     displayIntro("Hero enters the arena:", "heroAnnounce");
@@ -106,7 +106,7 @@ cont.addEventListener("click", function(){
         displayBattle("Who attacks first?", "firstAttack")
         heroAttackBtn.style.visibility = "visible";
         villainAttackBtn.style.visibility = "visible";
-    }, 7000);
+    }, 9000);
 });
 heroAttackBtn.addEventListener("click", function(){
     firstAttack.style.display = "none";
