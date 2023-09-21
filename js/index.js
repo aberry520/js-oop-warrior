@@ -8,6 +8,7 @@ function displayIntro(x, y) {
     p.id = y;
 }
 function displayBattle(x, y) {
+    const battle = document.getElementById("battle");
     const p = document.createElement("p");
     p.innerHTML = x;
     battle.append(p);
@@ -46,8 +47,10 @@ class Warrior {
     }
     alive(){
         if (this.health > 0){
+            console.log("you are alive")
             return true;
         }else{
+            console.log("you are dead");
             return false;
         }
     }
@@ -62,6 +65,14 @@ class Villain extends Warrior {
         return `You are too weak to defeat me ${otherCharacter.characterName}! I have the mighty power of ${this.power} compared to your measly power of ${otherCharacter.power}`
     }
 }
+class Zombie extends Warrior {
+    constructor(characterName, power = [randomNum(5,15)]){
+        super(characterName, power)
+    }
+    alive(){
+        return true;
+    }
+}
 
 const heroInput = document.getElementById("heroInput");
 const villainInput = document.getElementById("villainInput");
@@ -69,6 +80,8 @@ const submit = document.getElementById("submit");
 const cont = document.getElementById("continue");
 const hero = [];
 const villain = []; 
+const enemies = [villain[0], Zombie];
+const zombie = new Zombie("raahhgghaa");
 submit.addEventListener("click", function(){
     if(villainInput.value != "" && heroInput.value != ""){
     const villainName = villainInput.value;
@@ -91,7 +104,7 @@ submit.addEventListener("click", function(){
 const intro = document.getElementById("intro")
 cont.addEventListener("click", function(){
     
-    cont.style.display = "none";
+    cont.style.visibility = "hidden";
     
     console.log(hero, villain);
     const heroGreet = document.getElementById("heroGreet");
@@ -106,7 +119,8 @@ cont.addEventListener("click", function(){
         displayIntro("Villain enters arena:")
     }, 3000);
     setTimeout(() => {
-        displayIntro(villain[0].taunt(hero[0]))
+        displayIntro(villain[0].taunt(hero[0]));
+        cont.style.visibility = "visible";
     }, 4500);
     setTimeout(() => {
         intro.style.display = "none";
@@ -118,10 +132,12 @@ cont.addEventListener("click", function(){
 heroAttackBtn.addEventListener("click", function(){
     firstAttack.style.display = "none";
     displayBattle(hero[0].attack(villain[0]));
-    displayBattle(hero[0].victory(villain[0]));
+    hero[0].victory(villain[0]);
+    hero[0].alive();
 });
 villainAttackBtn.addEventListener("click", function(){
     firstAttack.style.display = "none";
     displayBattle(villain[0].attack(hero[0]));
-    displayBattle(villain[0].victory(hero[0]));
+    villain[0].victory(hero[0]);
+    villain[0].alive();
 });
