@@ -46,11 +46,9 @@ class Warrior {
         }
     }
     alive(){
-        if (this.health > 0){
-            console.log("you are alive")
+        if (this.health >= 0){
             return true;
         }else{
-            console.log("you are dead");
             return false;
         }
     }
@@ -66,8 +64,8 @@ class Villain extends Warrior {
     }
 }
 class Zombie extends Warrior {
-    constructor(characterName, power = [randomNum(5,15)]){
-        super(characterName, power)
+    constructor(characterName, health = 10000,power = [randomNum(5,15)]){
+        super(characterName, health, power)
     }
     alive(){
         return true;
@@ -81,7 +79,7 @@ const cont = document.getElementById("continue");
 const hero = [];
 const villain = []; 
 const enemies = [villain[0], Zombie];
-const zombie = new Zombie("raahhgghaa");
+const zombie = new Zombie("Zombie");
 submit.addEventListener("click", function(){
     if(villainInput.value != "" && heroInput.value != ""){
     const villainName = villainInput.value;
@@ -129,15 +127,45 @@ cont.addEventListener("click", function(){
         villainAttackBtn.style.visibility = "visible";
     }, 9000);
 });
+
+let x = [];
 heroAttackBtn.addEventListener("click", function(){
-    firstAttack.style.display = "none";
-    displayBattle(hero[0].attack(villain[0]));
-    hero[0].victory(villain[0]);
-    hero[0].alive();
+    let enemy = enemies[randomNum(0,2)];
+    if ( x = []) {
+        firstAttack.style.display = "none";
+        x.push(1);
+    }
+    if (enemy === enemies[0]){
+        displayBattle(hero[0].attack(villain[0]));
+    }
+    if (enemy === enemies[1]){
+        displayBattle("Oh no a zombie appeared!");
+        // displayBattle(`${hero[0].characterName}: What is your name beast!`)
+        setTimeout(() => {
+            displayBattle(`${hero[0].characterName} attack's to no avail!`);
+        }, 1000);
+    }
+    if (villain[0].alive() === false){
+        hero[0].victory(villain[0]);
+    }
 });
 villainAttackBtn.addEventListener("click", function(){
-    firstAttack.style.display = "none";
-    displayBattle(villain[0].attack(hero[0]));
-    villain[0].victory(hero[0]);
-    villain[0].alive();
+    let enemy = enemies[randomNum(0,2)];
+    if ( x = []) {
+        firstAttack.style.display = "none";
+        x.push(1);
+    }
+    if (enemy === enemies[0]){
+        displayBattle(villain[0].attack(hero[0]));
+    }
+    if (enemy === enemies[1]){
+        displayBattle("Oh no a zombie appeared!");
+        setTimeout(() => {
+            displayBattle(zombie.attack(hero[0]));
+        }, 1000);
+        
+    }
+    if (hero[0].alive() === false){
+        villain[0].victory(hero[0]);
+    }
 });
