@@ -44,6 +44,13 @@ class Warrior {
             return "";
         }
     }
+    alive(){
+        if (this.health > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 class Hero extends Warrior {
     announce(otherCharacter){
