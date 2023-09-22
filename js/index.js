@@ -1,6 +1,15 @@
 "use strict"
+////////Document Variables////////
+const heroInput = document.getElementById("heroInput");
+const villainInput = document.getElementById("villainInput");
+const submit = document.getElementById("submit");
+const cont = document.getElementById("continue");
+const zombieMode = document.getElementById("zombieMode");
 const main = document.querySelector("main");
+const label = document.querySelector("label");
+const intro = document.getElementById("intro");
 
+////////Functions////////
 function displayIntro(x, y) {
     const p = document.createElement("p");
     p.innerHTML = x;
@@ -19,7 +28,7 @@ function randomNum(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
 }
-
+////////Classes////////
 class Warrior {
     constructor(characterName, details, health = [randomNum(50, 100)], power = randomNum(5, 50)) {
         this.characterName = characterName;
@@ -72,25 +81,8 @@ class Zombie extends Warrior {
     }
 }
 
-const heroInput = document.getElementById("heroInput");
-const villainInput = document.getElementById("villainInput");
-const submit = document.getElementById("submit");
-const cont = document.getElementById("continue");
-const zombieMode = document.getElementById("zombieMode");
 
-zombieMode.addEventListener("change", function () {
-    if (zombieMode.checked == true) {
-        console.log("zombie");
-    }
-})
-const zombie = new Zombie("Zombie");
-let state = {
-    hero: null,
-    villain: null,
-    zombie: null
-}
-let enemies = [];
-const label = document.querySelector("label");
+
 
 submit.addEventListener("click", function () {
     if (villainInput.value != "" && heroInput.value != "") {
@@ -117,7 +109,7 @@ submit.addEventListener("click", function () {
     }
 
 });
-const intro = document.getElementById("intro")
+
 cont.addEventListener("click", function () {
 
     cont.style.visibility = "hidden";
@@ -147,7 +139,8 @@ cont.addEventListener("click", function () {
 
 });
 
-let x = [0];
+let enemies = [];//enemies array for zombie mode
+let x = [0];//array for inital state, need to refactor but works for now
 heroAttackBtn.addEventListener("click", function () {
     let enemy = enemies[randomNum(0, 2)];
     if (x = [0]) {
@@ -171,18 +164,13 @@ heroAttackBtn.addEventListener("click", function () {
             }, 1000);
         }
     } else {
-        console.log("no zombie");
         displayBattle(state.hero.attack(state.villain));
         heroAttackBtn.style.visibility = "hidden";
         villainAttackBtn.style.visibility = "visible";
     }
     setTimeout(() => {
         if (state.villain.alive() === false) {
-            displayBattle(`${state.villain.characterName} has been defeated!`);
-            setTimeout(() => {
-                state.hero.victory(state.villain);
-            }, 3000);
-            
+            state.hero.victory(state.villain);
         }
     }, 50);
 
@@ -209,7 +197,7 @@ villainAttackBtn.addEventListener("click", function () {
             }, 1000);
 
         }
-    }else {
+    } else {
         displayBattle(state.villain.attack(state.hero));
         heroAttackBtn.style.visibility = "visible";
         villainAttackBtn.style.visibility = "hidden";
@@ -217,12 +205,7 @@ villainAttackBtn.addEventListener("click", function () {
 
     setTimeout(() => {
         if (state.hero.alive() === false) {
-            displayBattle(`${state.hero.characterName} has been defeated!`);
-            villainAttackBtn.style.visibility = "hidden";
-            heroAttackBtn.style.visibility = "hidden";
-            setTimeout(() => {
-                state.villain.victory(state.hero);
-            }, 3000);
+            state.villain.victory(state.hero);
         }
     }, 50);
 
