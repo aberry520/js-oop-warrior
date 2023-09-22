@@ -40,8 +40,6 @@ class Warrior {
     }
     attack(otherCharacter) {
         const attack = otherCharacter.health - this.power;
-        // otherCharacter.health.unshift(attack);
-        // otherCharacter.health.pop();
         otherCharacter.health = attack;
         return `${this.characterName} attacks ${otherCharacter.characterName}. ${otherCharacter.characterName}'s health is now ${attack}!`
     }
