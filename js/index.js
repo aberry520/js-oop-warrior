@@ -76,25 +76,35 @@ const heroInput = document.getElementById("heroInput");
 const villainInput = document.getElementById("villainInput");
 const submit = document.getElementById("submit");
 const cont = document.getElementById("continue");
-const hero = [];
-const villain = []; 
-const enemies = [villain[0], Zombie];
+
+let state = {
+    hero: null,
+    villain: null,
+    zombie: null
+}
+let enemies = [];
 const zombie = new Zombie("Zombie");
+
 submit.addEventListener("click", function(){
     if(villainInput.value != "" && heroInput.value != ""){
     const villainName = villainInput.value;
-    const villain1 = new Villain(villainName);
-    villain.push(villain1);
+    state.villain = new Villain(villainName);
+    const villain = state.villain;
+    // villain.push(villain);
     villainInput.style.display = "none";
-    displayIntro(villain1.greet(), "villainGreet");
+    displayIntro(villain.greet(), "villainGreet");
     
     const heroName = heroInput.value;
-    const hero1 = new Hero(heroName);
-    hero.push(hero1);
+    state.hero = new Hero(heroName);
+    const hero = state.hero;
+    enemies.push(state.villain);
+    enemies.push(state.zombie);
     heroInput.style.display = "none";
-    displayIntro(hero1.greet(), "heroGreet");
+    displayIntro(hero.greet(), "heroGreet");
 
     submit.style.display = "none";
+    state = {hero,villain,zombie}
+    console.log(state)
     return cont.style.visibility = "visible";
     }
     
@@ -104,68 +114,70 @@ cont.addEventListener("click", function(){
     
     cont.style.visibility = "hidden";
     
-    console.log(hero, villain);
     const heroGreet = document.getElementById("heroGreet");
     const villainGreet = document.getElementById("villainGreet");
     villainGreet.style.display = "none";
     heroGreet.style.display = "none";
     displayIntro("Hero enters the arena:", "heroAnnounce");
-    setTimeout(() => {
-        displayIntro(hero[0].announce(villain[0]))
-    }, 1500);
-    setTimeout(() => {
+    // setTimeout(() => {
+        displayIntro(state.hero.announce(state.villain))
+    // }, 1500);
+    // setTimeout(() => {
         displayIntro("Villain enters arena:")
-    }, 3000);
-    setTimeout(() => {
-        displayIntro(villain[0].taunt(hero[0]));
+    // }, 3000);
+    // setTimeout(() => {
+        displayIntro(state.villain.taunt(state.hero));
         cont.style.visibility = "visible";
-    }, 4500);
-    setTimeout(() => {
+    // }, 4500);
+    // setTimeout(() => {
         intro.style.display = "none";
         displayBattle("Who attacks first?", "firstAttack")
         heroAttackBtn.style.visibility = "visible";
         villainAttackBtn.style.visibility = "visible";
-    }, 9000);
+    // }, 9000);
 });
 
-let x = [];
+let x = [0];
 heroAttackBtn.addEventListener("click", function(){
     let enemy = enemies[randomNum(0,2)];
-    if ( x = []) {
+    if ( x = [0]) {
         firstAttack.style.display = "none";
         x.push(1);
     }
     if (enemy === enemies[0]){
-        displayBattle(hero[0].attack(villain[0]));
+        displayBattle(state.hero.attack(state.villain));
     }
     if (enemy === enemies[1]){
         displayBattle("Oh no a zombie appeared!");
-        // displayBattle(`${hero[0].characterName}: What is your name beast!`)
+        // displayBattle(`${state.hero.characterName}: What is your name beast!`)
         setTimeout(() => {
-            displayBattle(`${hero[0].characterName} attack's to no avail!`);
+            displayBattle(`${state.hero.characterName} attack's to no avail!`);
         }, 1000);
     }
-    if (villain[0].alive() === false){
-        hero[0].victory(villain[0]);
+    if (state.villain.alive() === false){
+        state.hero.victory(state.villain);
     }
 });
 villainAttackBtn.addEventListener("click", function(){
+    // let {hero,villain,zombie} = state;
     let enemy = enemies[randomNum(0,2)];
-    if ( x = []) {
+    if ( x = [0]) {
         firstAttack.style.display = "none";
         x.push(1);
     }
     if (enemy === enemies[0]){
-        displayBattle(villain[0].attack(hero[0]));
+        displayBattle(state.villain.attack(state.hero));
+        console.log(enemy);
+        
     }
     if (enemy === enemies[1]){
         displayBattle("Oh no a zombie appeared!");
         setTimeout(() => {
-            displayBattle(zombie.attack(hero[0]));
+            displayBattle(zombie.attack(state.hero));
         }, 1000);
         
     }
-    if (hero[0].alive() === false){
-        villain[0].victory(hero[0]);
+    if (state.hero.alive() === false){
+        state.villain.victory(state.hero);
     }
 });
