@@ -30,7 +30,7 @@ function randomNum(min, max) {
 }
 ////////Classes////////
 class Warrior {
-    constructor(characterName, details, health = [randomNum(50, 100)], power = randomNum(5, 50)) {
+    constructor(characterName, details, health = randomNum(50, 100), power = randomNum(5, 50)) {
         this.characterName = characterName;
         this.health = health;
         this.power = power;
@@ -40,8 +40,9 @@ class Warrior {
     }
     attack(otherCharacter) {
         const attack = otherCharacter.health - this.power;
-        otherCharacter.health.unshift(attack);
-        otherCharacter.health.pop();
+        // otherCharacter.health.unshift(attack);
+        // otherCharacter.health.pop();
+        otherCharacter.health = attack;
         return `${this.characterName} attacks ${otherCharacter.characterName}. ${otherCharacter.characterName}'s health is now ${attack}!`
     }
     victory(otherCharacter) {
@@ -80,36 +81,43 @@ class Zombie extends Warrior {
         return true;
     }
 }
+////////State Object////////
+let state = {
+    hero: null,
+    villain: null,
+    zombie: null
+}
 
-
-
-
+////////Button Event Listeners////////
 submit.addEventListener("click", function () {
+    
     if (villainInput.value != "" && heroInput.value != "") {
+        const heroName = heroInput.value;
+        if (heroInput.value == "jesus" || heroInput.value == "Jesus") {
+            state.hero = new Hero(heroName, null, 10000000, 10000000);
+        }else {
+            state.hero = new Hero(heroName);
+        }
         const villainName = villainInput.value;
         state.villain = new Villain(villainName);
         const villain = state.villain;
-        // villain.push(villain);
         villainInput.style.display = "none";
         displayIntro(villain.greet(), "villainGreet");
-
-        const heroName = heroInput.value;
-        state.hero = new Hero(heroName);
+        cont.style.visibility = "visible";
+        
+        
         const hero = state.hero;
         enemies.push(state.villain);
         enemies.push(state.zombie);
         heroInput.style.display = "none";
         displayIntro(hero.greet(), "heroGreet");
-
         zombieMode.style.display = "none";
         label.style.display = "none"
         submit.style.display = "none";
-        state = { hero, villain, zombie }
-        return cont.style.visibility = "visible";
+        return state = { hero, villain, zombie };
     }
 
 });
-
 cont.addEventListener("click", function () {
 
     cont.style.visibility = "hidden";
