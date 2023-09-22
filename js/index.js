@@ -119,22 +119,24 @@ cont.addEventListener("click", function(){
     villainGreet.style.display = "none";
     heroGreet.style.display = "none";
     displayIntro("Hero enters the arena:", "heroAnnounce");
-    // setTimeout(() => {
+    setTimeout(() => {
         displayIntro(state.hero.announce(state.villain))
-    // }, 1500);
-    // setTimeout(() => {
+    }, 1500);
+    setTimeout(() => {
         displayIntro("Villain enters arena:")
-    // }, 3000);
-    // setTimeout(() => {
+    }, 3000);
+    setTimeout(() => {
         displayIntro(state.villain.taunt(state.hero));
         cont.style.visibility = "visible";
-    // }, 4500);
-    // setTimeout(() => {
-        intro.style.display = "none";
+    }, 4500);
+    cont.addEventListener("click", function(){
+         intro.style.display = "none";
         displayBattle("Who attacks first?", "firstAttack")
         heroAttackBtn.style.visibility = "visible";
         villainAttackBtn.style.visibility = "visible";
-    // }, 9000);
+    })
+       
+
 });
 
 let x = [0];
